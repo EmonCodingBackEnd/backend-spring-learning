@@ -1,0 +1,39 @@
+server:
+  port: 8080
+mycar:
+  brand: BYD
+  price: 230000
+
+person:
+  # 单引号会转义，双引号不会转义
+  user-name: zhanagsan
+  boss: true
+  birth: 2019/12/9
+  age: 18
+  # interests: [篮球,足球]
+  interests:
+    - 篮球
+    - 足球
+  animal: [ 阿猫,阿狗 ]
+  # score: { english:80, math:90 }
+  score:
+    english: 80
+    math: 90
+  salarys:
+    - 9999.98
+    - 9999.99
+  pet:
+    name: 阿狗
+    weight: 99.99
+  all-pets:
+    sick:
+      - { name: 阿狗,weight: 99.99 }
+      - name: 阿猫
+        weight: 88.88
+      - name: 阿虫
+        weight: 77.77
+    health: [ { name: 阿花, weight: 299.99 }, { name: 阿雷, weight: 199.99 } ]
+
+spring:
+  banner:
+    location: custom_banner.txt

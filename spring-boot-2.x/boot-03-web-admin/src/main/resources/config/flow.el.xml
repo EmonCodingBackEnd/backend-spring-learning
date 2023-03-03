@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow>
+    <chain name="chain1">
+        // 循环，也可以使用WHILE
+        THEN(
+        PRE(pre),
+        FOR(5).DO(
+            SWITCH(ACmp).to(
+                b,
+               /**
+                * IF是一个复杂的语句，应该对其增加id，不然SWITCH都不知道如何选择这个IF表达式了
+                */
+                IF(e,THEN(c,d),f).id("aa")
+            )
+        ).BREAK(g),
+        WHEN(h,i),
+        j,
+        FINALLY(finally.tag("我是Finally"))
+        )
+    </chain>
+    <chain name="invoke">
+        THEN(invoke)
+    </chain>
+</flow>

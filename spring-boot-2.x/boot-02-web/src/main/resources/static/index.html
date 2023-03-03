@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>emon，欢迎您！</h1>
+测试REST风格：
+<form action="/user" method="get">
+    <input type="submit" value="REST-GET提交"/>
+</form>
+<form action="/user" method="post">
+    <input type="submit" value="REST-POST提交"/>
+</form>
+<form action="/user" method="post">
+    <input type="hidden" name="_method" value="PUT"/>
+    <input type="submit" value="REST-PUT提交"/>
+</form>
+<form action="/user" method="post">
+    <input type="hidden" name="_method" value="DELETE"/>
+    <input type="submit" value="REST-DELETE提交"/>
+</form>
+<form action="/user" method="post">
+    <input type="hidden" name="_method" value="PATCH"/>
+    <input type="submit" value="REST-PATCH提交"/>
+</form>
+<hr>
+测试基本注解：
+<form action="/car/3/owner/lisi?age=18&inters=basketbal&inters=game" method="post">
+    用户名：
+    <label>
+        <input type="text" name="userName" value="zhangsan"/>
+    </label>
+    用户名：
+    <label>
+        <input type="text" name="email" value="zhangsan@qq.com"/>
+    </label>
+    <input type="submit" value="提交"/>
+</form>
+测试矩阵变量：
+<ul>
+    <li><a href="/cars/sell;low=34;brand=byd,audi,yd">@MatrixVariable[/cars/sell;low=34;brand=byd,audi,yd]</a></li>
+    <li><a href="/boss/1;age=20/2;age=10">@MatrixVariable[/boss/1;age=20/2;age=10]</a></li>
+</ul>
+测试封装POJO：
+<form action="/saveuser" method="post">
+    <label>
+        姓名：
+        <input type="text" name="userName" value="zhangsan"/>
+    </label><br/>
+    <label>
+        年龄：
+        <input type="text" name="age" value="18"/>
+    </label><br/>
+    <label>
+        生日：
+        <input type="text" name="birth" value="2019/12/10"/>
+    </label><br/>
+    <!--<label>
+        宠物姓名：
+        <input type="text" name="pet.name" value="阿猫"/>
+    </label><br/>
+    <label>
+        宠物年龄：
+        <input type="text" name="pet.age" value="5"/>
+    </label><br/>-->
+    <label>
+        宠物：
+        <input type="text" name="pet" value="阿猫,5"/>
+    </label>
+    <input type="submit" value="保存">
+</form>
+</body>
+</html>

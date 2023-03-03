@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>boot-04-features-profile</artifactId>
+
+    <parent>
+        <artifactId>spring-boot-2.x</artifactId>
+        <groupId>com.coding.springboot2</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <!-- 定义三方包 beg -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 定义三方包 end -->
+
+        <!-- 定义二方包 beg -->
+        <!-- 定义二方包 end -->
+
+
+        <!-- 定义一方包 beg -->
+        <!-- 定义一方包 end -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+        <!--
+        配置文件查找顺序：
+        1-From the classpath
+
+        a-The classpath root
+
+        b-The classpath /config package
+
+        2-From the current directory
+
+        a-The current directory
+
+        b-The config/ subdirectory in the current directory
+
+        c-Immediate child directories of the config/ subdirectory
+
+        优先级从高到低 1-a > 1-b > 2-a > 2-b > 2-c，后者可以覆盖前者的配置，也可以使用前者的配置
+
+        配置文件的加载顺序：
+        1-当前jar包内部的application.properties和application.yml
+        2-当前jar包内部的application-{profile}.properties和application-{profile}.yml
+        3-引用的外部jar包内部的application.properties和application.yml
+        4-引用的外部jar包内部的application-{profile}.properties和application-{profile}.yml
+        -->

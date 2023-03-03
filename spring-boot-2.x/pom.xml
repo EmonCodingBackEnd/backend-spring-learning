@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.coding.springboot2</groupId>
+    <artifactId>spring-boot-2.x</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.9</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <modules>
+        <module>boot-01-helloworld</module>
+        <module>boot-02-web</module>
+        <module>boot-03-web-admin</module>
+        <module>boot-03-web-admin-monitor</module>
+        <module>boot-04-features-profile</module>
+        <module>boot-05-customer-starter</module>
+        <module>boot-06-hello-test</module>
+    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 定义三方包 beg -->
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-spring-boot-starter</artifactId>
+                <version>2.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>tlog-all-spring-boot-starter</artifactId>
+                <version>1.5.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>2.7.9</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>2.7.9</version>
+            </dependency>
+            <!-- 定义三方包 end -->
+
+
+            <!-- 定义二方包 beg -->
+            <!-- 定义二方包 end -->
+
+
+            <!-- 定义一方包 beg -->
+            <!-- 定义一方包 end -->
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- 定义三方包 beg -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--生成配置元数据<spring-configuration-metadata.json>，
+            从 @ConfigurationProperties 注释生成自己的配置元数据文件，辅助yml配置时自动提示 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional><!--表示依赖不会传递-->
+        </dependency>
+        <!--对微服务端点进行管理和配置监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional><!--表示依赖不会传递-->
+        </dependency>
+        <!-- 定义三方包 end -->
+
+        <!-- 定义二方包 beg -->
+        <!-- 定义二方包 end -->
+
+
+        <!-- 定义一方包 beg -->
+        <!-- 定义一方包 end -->
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                            <!--经过实际测试发现，不排除也会隐式排除-->
+                            <!--<exclude>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-configuration-processor</artifactId>
+                            </exclude>-->
+                            <!--经过实际测试发现，不排除也会隐式排除-->
+                            <!--<exclude>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-devtools</artifactId>
+                            </exclude>-->
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
+        <!--
+        - 应答拦截
+        @RestControllerAdvice
+        @Slf4j
+        public class IgnoreResponseResolver implements ResponseBodyAdvice<Object> {
+        }
+
+        - 请求参数解析器
+        @Slf4j
+        public class AppCacheArgumentResolver implements HandlerMethodArgumentResolver {
+        }
+
+        - 异常拦截
+        @ControllerAdvice
+        @ConditionalOnMissingBean(annotation = DisableGlobalExceptionInterceptor.class)
+        @Slf4j
+        public class GlobalExceptionInterceptor {
+            @ExceptionHandler(value = Exception.class)
+            @ResponseBody
+            public AppResponse handle(Exception e) {
+            }
+        }
+
+        - 参数验证
+        @Aspect
+        @Component
+        public class AdminValidatorInterceptor {
+            @Pointcut("execution(* com.ishanshan.huiba.scrm..*.*(..))")
+            public void publicMethods() {}
+
+            @Before("publicMethods()")
+            public void instrumentMetered(JoinPoint jp) {
+            }
+        }
+
+        - 自定义全局错误
+        @Controller
+        @RequestMapping("${server.error.path:${error.path:/error}}")
+        @Slf4j
+        public class GlobalErrorController extends AbstractErrorController {}
+
+
+        - 拦截器
+        @Component
+        @Slf4j
+        public class SecurityInterceptor extends HandlerInterceptorAdapter {}
+
+        - WebMvc【很强】
+        @Configuration
+        public class WebMvcConfigurer extends WebMvcConfigurerAdapter {}
+
+        @Configuration
+        @Slf4j
+        public class AdminWebMvcConfigurer implements WebMvcConfigurer {}
+
+        @Component
+        public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {}
+
+        - 处理应答
+        HandlerMethodReturnValueHandler
+            - 处理JSOn：RequestResponseBodyMethodProcessor
+                - 真正的处理消息转换的类：HttpMessageConverter
+
+        - 处理请求对象
+        HandlerMethodArgumentResolver
+
+        - ApplicationContextInitializer
+        - ApplicationListener
+        - SpringApplicationRunListener
+        - ApplicationRunner
+        - CommandLineRunner
+        -->
+
+        <!--
+        定制化的常见方式：
+        - 修改配置文件
+        - XXXXCustomizer
+        - 编写自定义的配置类 XXXConfiguration； +@Bean替换、增加容器中默认组件；视图解析器
+        - Web应用编写一个配置类实现WebMvcConfigurer即可定制化Web功能；+@Bean给容器再扩展一些组件
+        - @EnableWebMvc + WebMvcConfigurer即可定制化Web功能；+@Bean给容器中再扩展一些组件
+        -->

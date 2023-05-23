@@ -63,4 +63,8 @@
         2-当前jar包内部的application-{profile}.properties和application-{profile}.yml
         3-引用的外部jar包内部的application.properties和application.yml
         4-引用的外部jar包内部的application-{profile}.properties和application-{profile}.yml
+
+        补充：外部还可以通过
+        java -jar -Dspring.config.additional-location=/path/to/config/ xxx.jar 方式指定外部配置
+        其中 /path/to/config/ 是一个目录，该目录下的 xxx.yml 的配置，会覆盖jar包内的属性。
         -->

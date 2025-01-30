@@ -18,7 +18,8 @@
 
     <modules>
         <module>boot3-01-demo</module>
-        <module>boot3-02-demo</module>
+        <module>boot3-02-initializr</module>
+        <module>boot3-03-logging</module>
     </modules>
 
     <properties>

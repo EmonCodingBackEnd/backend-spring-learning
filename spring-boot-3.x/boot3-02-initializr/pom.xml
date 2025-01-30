@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.coding.springboot3</groupId>
-    <artifactId>boot3-02-demo</artifactId>
+    <artifactId>boot3-02-initializr</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>boot3-02-demo</name>
     <description>boot3-02-demo</description>
@@ -76,6 +76,7 @@
     </dependencies>
 
     <build>
+        <finalName>initializr</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

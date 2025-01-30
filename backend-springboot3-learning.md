@@ -699,7 +699,7 @@ person:
   - Log4j
   - JUL（java.util.logging）
   - Log4j2
-  - <span style="color:red;font-weight:bold;">SLF4j（Simple Logging Facade for Java）</span>
+  - <span style="color:red;font-weight:bold;">Logback</span>
 
 <span style="color:red;font-weight:bold;">感兴趣日志框架关系与起源可参考：</span>ww.bilibili.com/video/BV1gW411W76m 视频21~27集
 
@@ -849,14 +849,65 @@ SpringBoot预定义两个组：
 
 **6 文件输出**
 
-SpringBoot默认只把日志写在控制台，如果想额外记录到文件，可以在<span style="color:red;">application.properties</span>中添加<span style="color:red;">`logging.file.name`</span>or<span style="color:red;">logging.file.path</span>配置项。
+SpringBoot默认只把日志写在控制台，如果想额外记录到文件，可以在<span style="color:red;">application.properties</span>中添加<span style="color:red;">`logging.file.name`</span>or<span style="color:red;">`logging.file.path`</span>配置项。
 
-| <span style="color:red;">logging.file.name</span> | <span style="color:red;">logging.file.path</span> | 示例     | 效果                                                    |
-| ------------------------------------------------- | ------------------------------------------------- | -------- | ------------------------------------------------------- |
-| 未指定                                            | 未指定                                            |          | 进控制台输出                                            |
-| 指定                                              | 未指定                                            | my.log   | 写入指定文件。可以加路径。                              |
-| 未指定                                            | 指定                                              | /var/log | 写入指定目录，文件名为`spring.log`                      |
-| 指定                                              | 指定                                              |          | 以<span style="color:red;">logging.file.name</span>为准 |
+| <span style="color:red;">`logging.file.name`</span> | <span style="color:red;">`logging.file.path`</span> | 示例     | 效果                                                         |
+| --------------------------------------------------- | --------------------------------------------------- | -------- | ------------------------------------------------------------ |
+| 未指定                                              | 未指定                                              |          | 进控制台输出                                                 |
+| **指定**                                            | 未指定                                              | my.log   | 写入指定文件。可以<span style="color:red;">`加路径`</span>。 |
+| 未指定                                              | **指定**                                            | /var/log | 写入指定目录，文件名为<span style="color:red;">`spring.log`</span> |
+| **指定**                                            | **指定**                                            |          | 以<span style="color:red;">`logging.file.name`</span>为准    |
+
+**7 文件归档与滚动切割**
+
+> 归档：每天的日志单独存到一个日志文件中。
+>
+> 切割：每个文件10MB，超过大小切割成另外一个文件。
+
+1. 每天的日志应该独立分隔出来存档。如果使用<span style="color:red;">`logback`</span>（SpringBoot默认整合），可以通过<span style="color:red;">`application.properties/yaml`</span>文件指定日志滚动规则。
+2. 如果是其他日志系统，需要自行配置（添加<span style="color:red;">`log4j2.xml`</span>或<span style="color:red;">`log4j2-spring.xml`</span>）
+3. 支持的滚动规则设置如下
+
+| 配置项                                                       | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <span style="color:red;">`logging.logback.rollingpolicy.file-name-pattern`</span> | 日志存档的文件名格式（默认值：<span style="color:red;">`${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz`</span>） |
+| <span style="color:red;">`logging.logback.rollingpolicy.clean-history-on-start`</span> | 应用启动时是否清除以前存档（默认值：<span style="color:red;">`false`</span>） |
+| <span style="color:red;">`logging.logback.rollingpolicy.max-file-size`</span> | 存档前，每个日志文件的最大大小（默认值：<span style="color:red;">`10MB`</span>） |
+| <span style="color:red;">`logging.logback.rollingpolicy.total-size-cap`</span> | 日志文件被删除之前，可以容纳的最大大小（默认值：<span style="color:red;">`0B`</span>）。<br />设置<span style="color:red;">`1GB`</span>则磁盘存储超过1GB日志后就会删除旧日志文件。 |
+| <span style="color:red;">`logging.logback.rollingpolicy.max-history`</span> | 日志文件保存的最大天数（默认值：<span style="color:red;">`7`</span>） |
+
+**8 自定义配置**
+
+通常我们配置猩红<span style="color:red;">`application.properties`</span>就够了。当然也可以自定义，比如：
+
+| 日志系统                 | 自定义                                                       |
+| ------------------------ | ------------------------------------------------------------ |
+| Logback                  | <span style="color:red;">`logback-spring.xml`</span>，<span style="color:red;">`logback-spring.groovy`</span>，<span style="color:red;">`logback.xml`</span>，or<span style="color:red;">`logback.groovy`</span> |
+| Log4j2                   | <span style="color:red;">`log4j2-spring.xml`</span> or <span style="color:red;">`log4j2.xml`</span> |
+| JDK（Java Util Logging） | <span style="color:red;">`logging.properties`</span>         |
+
+​	如果可能，我们建议您在日志配置中使用`-spring`变量（例如：`logback-spring.xml`而不是`logback.xml`）。如果您使用标准配置文件，spring无法完全控制日志初始化。
+
+最佳实践：自己要写配置，配置文件名加上`xx-spring.xml`。
+
+**9 切换日志组合**
+
+```xml
+```
+
+log4j2支持yaml和json格式的配置文件。
+
+| 格式 | 依赖                                                         | 文件名                   |
+| ---- | ------------------------------------------------------------ | ------------------------ |
+| YAML | com.fasterxml.jackson.core:jackson-databind<br/>com.fasterxml.jackson.dataformat:jackson-dataformat-yaml | log4j2.yaml + log4j2.yml |
+| JSON | com.fasterxml.jackson.core:jackson-databind                  | log4j2.json + log4j2.jsn |
+
+**10 最佳实战**
+
+1. 导入任何第三方框架，先排除它的日志包，因为Boot底层控制好了日志。
+2. 修改`application.properties`配置文件，就可以调整日志的所有行为。如果不够，可以编写日志框架自己的配置文件放在类路径下就行，比如：`logback-spring.xml`，`log4j2-spring.xml`
+3. 如需对接**专业日志系统**，也只需要把logback记录的日志灌倒**kafka**之类的中间件，这和SpringBoot没关系，都是日志框架自己的配置，**修改配置文件即可**。
+4. **业务中使用slf4j-api记录日志。不要在sout了！！！**
 
 
 

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app" style="width: 500px; height: 300px; background-color: gainsboro;">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const http = axios.create({
+        baseURL: 'http://localhost:8080',
+        timeout: 100000,
+        responseType: 'stream',
+        // `onDownloadProgress` 允许为下载处理进度事件
+        // 浏览器专属
+        onDownloadProgress: function (progressEvent) {
+            // 处理原生进度事件
+            // console.log(progressEvent.event.currentTarget.responseText);
+            document.getElementById('app').innerText = progressEvent.event.currentTarget.responseText.replaceAll('\n', '');
+        },
+    });
+
+    // 向给定ID的用户发起请求
+    http.get('/sse2')
+        .then(function (response) {
+            // 处理成功情况
+            console.log("处理成功：", response);
+        })
+        .catch(function (error) {
+            // 处理错误情况
+            console.log("处理失败：", error);
+        })
+        .finally(function () {
+            // 总是会执行
+        });
+</script>
+</body>
+</html>

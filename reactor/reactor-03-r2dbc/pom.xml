@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.coding.reactor</groupId>
+        <artifactId>reactor</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>reactor-03-r2dbc</artifactId>
+
+    <dependencies>
+        <!-- 定义三方包 beg -->
+        <!-- https://mvnrepository.com/artifact/io.asyncer/r2dbc-mysql -->
+        <dependency>
+            <groupId>io.asyncer</groupId>
+            <artifactId>r2dbc-mysql</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <!--主动引入mac下arm版的jar依赖包，默认是osx-x86_64，可解决：nable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns-native-macos</artifactId>
+            <version>4.1.119.Final</version>
+            <classifier>osx-aarch_64</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.11.4</version>
+        </dependency>
+        <!-- 定义三方包 end -->
+
+        <!-- 定义二方包 beg -->
+        <!-- 定义二方包 end -->
+
+
+        <!-- 定义一方包 beg -->
+        <!-- 定义一方包 end -->
+    </dependencies>
+
+
+</project>

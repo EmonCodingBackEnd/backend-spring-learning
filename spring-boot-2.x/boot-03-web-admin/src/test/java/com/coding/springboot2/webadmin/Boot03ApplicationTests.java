@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class Boot03ApplicationTests {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     void contextLoads() {

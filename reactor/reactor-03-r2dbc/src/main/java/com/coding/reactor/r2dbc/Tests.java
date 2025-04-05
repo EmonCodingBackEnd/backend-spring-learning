@@ -1,0 +1,11 @@
+package com.coding.reactor.r2dbc;
+
+import org.junit.jupiter.api.Test;
+
+public class Tests {
+
+    @Test
+    public void test() {
+        System.out.println("test");
+    }
+}

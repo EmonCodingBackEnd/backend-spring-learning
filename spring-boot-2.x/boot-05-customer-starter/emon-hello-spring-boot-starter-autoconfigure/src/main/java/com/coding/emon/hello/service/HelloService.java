@@ -7,7 +7,7 @@ import com.coding.emon.hello.HelloProperties;
 public class HelloService {
 
     @Autowired
-    HelloProperties helloProperties;
+    private HelloProperties helloProperties;
 
     public String sayHello(String userName) {
         return helloProperties.getPrefix() + ":" + userName + ">>" + helloProperties.getSuffix();

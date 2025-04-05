@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <!-- 导入Spring Boot 3的默认日志配置 -->
+    <Properties>
+        <!-- 引入Spring属性 -->
+        <Property name="LOG_PATH">${spring:logging.file.path:-${sys:user.home}/logs}</Property>
+        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+        <Property name="LOG_FILE">${sys:user.home}/logs/application.log</Property>
+        <Property name="LOG_FILE_HISTORY">${sys:user.home}/logs/application</Property>
+    </Properties>
+
+    <!-- 定义Appenders -->
+    <Appenders>
+        <!-- 控制台日志输出 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- 文件日志输出 -->
+        <RollingFile name="File" fileName="${LOG_FILE}" filePattern="${LOG_FILE_HISTORY}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <!-- 按天归档日志文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 按文件大小归档日志文件 -->
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!-- 保留30天的日志 -->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- 异步日志输出 -->
+        <Async name="AsyncFile" bufferSize="512">
+            <AppenderRef ref="File"/>
+        </Async>
+    </Appenders>
+
+    <!-- 定义Loggers -->
+    <Loggers>
+        <!-- 根日志级别 -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AsyncFile"/>
+        </Root>
+
+        <!-- 可以在这里配置特定包的日志级别 -->
+        <Logger name="com.example" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AsyncFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

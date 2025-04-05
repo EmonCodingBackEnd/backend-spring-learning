@@ -35,7 +35,7 @@ public class Junit5Test {
     }
 
     @Autowired(required = false)
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Order(7)
     @Test
@@ -115,7 +115,7 @@ public class Junit5Test {
     void testAssertionsCombine() {
         // 如果第一个错误，并不会阻断后续断言的执行
         Assertions.assertAll("test", () -> Assertions.assertEquals(5, 2 + 3),
-            () -> Assertions.assertNotSame(new Object(), new Object()));
+                () -> Assertions.assertNotSame(new Object(), new Object()));
     }
 
     @Test

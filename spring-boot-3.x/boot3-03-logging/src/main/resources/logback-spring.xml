@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- 导入 Spring Boot 3 的默认日志配置 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- 引入Spring属性 -->
+    <springProperty name="DEFAULT_LOG_PATH" value="${user.home}/logs"/>
+    <springProperty name="LOG_PATH" source="logging.file.path" defaultValue="${DEFAULT_LOG_PATH}"/>
+    <!-- 定义日志文件路径 -->
+    <property name="LOG_FILE" value="${user.home}/logs/app.log"/>
+    <property name="LOG_FILE_HISTORY" value="${user.home}/logs/app"/>
+
+    <!-- 控制台日志输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 使用 Spring Boot 默认的日志格式 -->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 文件日志输出 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件路径 -->
+        <file>${LOG_FILE}</file>
+        <!-- 滚动策略：按天和按大小归档 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件命名规则，按天和大小切割和归档日志文件，并压缩为.gz格式 -->
+            <fileNamePattern>${LOG_FILE_HISTORY}-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最大大小 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 日志文件总大小限制 -->
+            <totalSizeCap>100MB</totalSizeCap>
+            <!-- 最大保留天数 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!-- 使用 Spring Boot 默认的日志格式 -->
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 异步日志输出 -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志。默认情况下，如果队列的 80% 已满，则会丢弃 TRACE、DEBUG 和 INFO 级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度，该值会影响性能。默认值为 256 -->
+        <queueSize>512</queueSize>
+        <!-- 添加附加的 appender，最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <!-- 日志级别配置 -->
+    <root level="info">
+        <!-- 控制台日志 -->
+        <appender-ref ref="CONSOLE"/>
+        <!-- 异步文件日志 -->
+        <appender-ref ref="ASYNC_FILE"/>
+    </root>
+
+    <!-- 针对特定包的日志级别配置 -->
+    <logger name="com.example" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+
+</configuration>

@@ -8357,6 +8357,10 @@ public class HelloController {
     }
 
 }
-
 ```
 
+# 补充说明
+
+## 1 模块 `spring-boot-3.x/boot3-20-ai/app` 打开方式
+
+请使用 WebStorm 打开该文件开发前端

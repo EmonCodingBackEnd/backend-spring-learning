@@ -37,6 +37,7 @@
         <module>boot3-17-webflux</module>
         <module>boot3-18-r2dbc</module>
         <module>boot3-19-integrated</module>
+        <module>boot3-20-ai</module>
     </modules>
 
     <properties>

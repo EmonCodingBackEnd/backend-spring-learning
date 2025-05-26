@@ -12,12 +12,22 @@
     <property name="LOG_FILE_HISTORY" value="${LOG_PATH:-${DEFAULT_LOG_PATH}}/${LOG_NAME:-${DEFAULT_LOG_NAME}}"/>
 
     <!-- 控制台日志输出 -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <!-- 使用 Spring Boot 默认的日志格式 -->
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <!-- 使用 Spring Boot 默认的日志格式 -->
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+    <springProfile name="!dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <!-- 使用 Spring Boot 默认的日志格式 -->
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
 
     <!-- 文件日志输出 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">

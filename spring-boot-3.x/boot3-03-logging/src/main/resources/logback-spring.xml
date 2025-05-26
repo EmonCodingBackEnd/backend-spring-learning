@@ -5,11 +5,11 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- 引入Spring属性 -->
-    <springProperty name="DEFAULT_LOG_PATH" value="${user.home}/logs"/>
-    <springProperty name="LOG_PATH" source="logging.file.path" defaultValue="${DEFAULT_LOG_PATH}"/>
+    <property name="DEFAULT_LOG_PATH" value="${user.dir}/logs"/>
+    <springProperty name="DEFAULT_LOG_NAME" source="spring.application.name" defaultValue="app"/>
     <!-- 定义日志文件路径 -->
-    <property name="LOG_FILE" value="${user.home}/logs/app.log"/>
-    <property name="LOG_FILE_HISTORY" value="${user.home}/logs/app"/>
+    <property name="LOG_FILE" value="${LOG_PATH:-${DEFAULT_LOG_PATH}}/${LOG_NAME:-${DEFAULT_LOG_NAME}}.log"/>
+    <property name="LOG_FILE_HISTORY" value="${LOG_PATH:-${DEFAULT_LOG_PATH}}/${LOG_NAME:-${DEFAULT_LOG_NAME}}"/>
 
     <!-- 控制台日志输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
